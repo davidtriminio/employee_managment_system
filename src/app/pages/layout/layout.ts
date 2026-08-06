@@ -1,5 +1,5 @@
 import {Component, inject} from '@angular/core';
-import {Router, RouterOutlet} from '@angular/router';
+import {Router, RouterLink, RouterOutlet} from '@angular/router';
 import {NgClass} from '@angular/common';
 import {IUser} from '../../core/model/interfaces/User.Model';
 import {GlobalConstant} from '../../core/globalConstant/Global.constant';
@@ -8,7 +8,8 @@ import {GlobalConstant} from '../../core/globalConstant/Global.constant';
   selector: 'app-layout',
   imports: [
     RouterOutlet,
-    NgClass
+    NgClass,
+    RouterLink
   ],
   templateUrl: './layout.html',
   styleUrl: './layout.css',
