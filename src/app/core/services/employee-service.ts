@@ -3,6 +3,7 @@ import {HttpClient} from '@angular/common/http';
 import {EmployeeModel} from '../model/classes/Employee.model';
 import {environment} from '../../../environments/environment';
 import {Observable} from 'rxjs';
+import {GlobalConstant} from '../globalConstant/Global.constant';
 
 @Service()
 export class EmployeeService {
@@ -12,7 +13,11 @@ export class EmployeeService {
   constructor() {
   }
 
+  getAllEmployees():Observable<EmployeeModel[]>{
+    return this.http.get<EmployeeModel[]>(environment.API_URL + GlobalConstant.API_METHOD.GET_ALL_EMPLOYEE)
+  }
+
   onCreateEmployee(obj: EmployeeModel):Observable<EmployeeModel>{
-    return this.http.post<EmployeeModel>(environment.API_URL + "CreateEmployee", obj)
+    return this.http.post<EmployeeModel>(environment.API_URL + GlobalConstant.API_METHOD.CREATE_EMPLOYEE, obj)
   }
 }
