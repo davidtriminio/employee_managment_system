@@ -17,6 +17,10 @@ export class EmployeeService {
     return this.http.get<EmployeeModel[]>(environment.API_URL + GlobalConstant.API_METHOD.GET_ALL_EMPLOYEE)
   }
 
+  getEmployeeById(ID: number):Observable<EmployeeModel>{
+    return this.http.get<EmployeeModel>(environment.API_URL + GlobalConstant.API_METHOD.GET_EMPLOYEE_BY_ID + ID)
+  }
+
   onCreateEmployee(obj: EmployeeModel):Observable<EmployeeModel>{
     return this.http.post<EmployeeModel>(environment.API_URL + GlobalConstant.API_METHOD.CREATE_EMPLOYEE, obj)
   }
