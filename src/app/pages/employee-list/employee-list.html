@@ -1,1 +1,125 @@
-<p>employee-list works!</p>
+<!-- Contenedor principal del componente inyectado -->
+<!-- flex-col y gap-6: Separa visualmente la zona de acciones superiores de la tabla de datos. -->
+<div class="flex w-full flex-1 flex-col gap-6">
+
+  <!-- 1. Botones Principales (Tamaño reducido: text-sm, px-3 py-2) -->
+  <div class="flex flex-wrap items-center gap-3">
+
+    <!-- Acción Primaria -->
+    <button routerLink="/admin/new-employee/0" class="inline-flex items-center justify-center rounded-lg bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm transition-all duration-200 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+      <!-- Icono escalado a h-4 w-4 para acompañar el texto sm -->
+      <svg class="-ml-1 mr-2 h-4 w-4" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+      </svg>
+      Crear Registro
+    </button>
+
+    <!-- Acción Secundaria -->
+    <button type="button" class="inline-flex items-center justify-center rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm font-semibold text-slate-700 shadow-sm transition-all duration-200 hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+      Cancelar
+    </button>
+
+    <!-- Acción de Actualización -->
+    <button type="button" class="inline-flex items-center justify-center rounded-lg bg-indigo-50 px-3 py-2 text-sm font-semibold text-indigo-700 shadow-sm transition-all duration-200 hover:bg-indigo-100 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+      <svg class="-ml-1 mr-2 h-4 w-4" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+      </svg>
+      Guardar Cambios
+    </button>
+
+    <!-- Acción Destructiva -->
+    <button type="button" class="inline-flex items-center justify-center rounded-lg bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm transition-all duration-200 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2">
+      Eliminar Selección
+    </button>
+  </div>
+
+  <!-- 2. Contenedor de la Tabla -->
+  <div class="flex w-full flex-1 flex-col overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm">
+
+    <!-- Cabecera de la tabla -->
+    <div class="border-b border-slate-200 bg-white px-6 py-5">
+      <h3 class="text-lg font-extrabold tracking-tight text-slate-800">Listado de Registros</h3>
+      <p class="mt-1 text-sm text-slate-500">Gestione la información detallada de su sistema.</p>
+    </div>
+
+    <!-- Contenedor con scroll horizontal y vertical para responsive (Añadido límite de altura) -->
+    <!-- Se usa max-h-[60vh] para garantizar que la tabla no empuje la página hacia abajo -->
+    <div class="w-full flex-1 overflow-auto max-h-[60vh]">
+      <table class="min-w-full text-sm text-left">
+
+        <thead class="sticky top-0 z-10 border-b border-slate-200 bg-slate-50/90 backdrop-blur-sm">
+        <tr>
+          <th scope="col" class="px-6 py-4 text-xs font-semibold uppercase tracking-wider text-slate-500">
+            Identificador Principal
+          </th>
+          <th scope="col" class="px-6 py-4 text-xs font-semibold uppercase tracking-wider text-slate-500">
+            Rol
+          </th>
+          <th scope="col" class="px-6 py-4 text-xs font-semibold uppercase tracking-wider text-slate-500">
+            Última Actualización
+          </th>
+          <th scope="col" class="px-6 py-4 text-right text-xs font-semibold uppercase tracking-wider text-slate-500">
+            Acciones
+          </th>
+        </tr>
+        </thead>
+
+        <!-- Cuerpo de la tabla (Diseño Striped / Cebreado) -->
+        <!-- Se eliminó el divide-y para que los fondos alternados se vean más limpios -->
+        <tbody>
+
+        <!-- Fila -->
+          @for (item of employeeList$ | async; track $index) {
+            <tr class="odd:bg-white even:bg-slate-50/70 transition-colors duration-200 hover:bg-slate-100">
+              <td class="whitespace-nowrap px-6 py-4">
+                <div class="flex flex-col">
+                  <span class="font-medium text-slate-900">{{item.employeeName}}</span>
+                  <span class="text-slate-500">ID: {{item.employeeId}}</span>
+                </div>
+              </td>
+              <td class="whitespace-nowrap px-6 py-4">
+              <span class="inline-flex items-center rounded-full bg-slate-100 px-2.5 py-0.5 text-xs font-medium text-slate-600 ring-1 ring-inset ring-slate-500/10">
+                {{item.role}}
+              </span>
+              </td>
+              <td class="whitespace-nowrap px-6 py-4 text-slate-500">
+                {{item.createdDate | date: 'MMM d, y'}}
+              </td>
+              <td class="whitespace-nowrap px-6 py-4 text-right">
+                <div class="flex items-center justify-end gap-2">
+                  <button type="button" class="inline-flex items-center justify-center rounded-md px-2.5 py-1.5 text-sm font-medium text-slate-600 transition-all duration-200 hover:bg-slate-200 hover:text-slate-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-1">
+                    Ver
+                  </button>
+                  <button routerLink="/admin/new-employee/{{item.employeeId}}" class="inline-flex items-center justify-center rounded-md px-2.5 py-1.5 text-sm font-medium text-indigo-600 transition-all duration-200 hover:bg-indigo-100 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-1">
+                    Editar
+                  </button>
+                  <button type="button" class="inline-flex items-center justify-center rounded-md p-1.5 text-slate-400 transition-all duration-200 hover:bg-red-100 hover:text-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-1" aria-label="Eliminar">
+                    <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0" />
+                    </svg>
+                  </button>
+                </div>
+              </td>
+            </tr>
+          }
+
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Paginación -->
+    <div class="flex items-center justify-between border-t border-slate-200 bg-white px-6 py-3">
+      <span class="text-sm text-slate-500">Mostrando <span class="font-medium text-slate-900">1</span> a <span class="font-medium text-slate-900">3</span> de <span class="font-medium text-slate-900">12</span> resultados</span>
+      <div class="flex gap-2">
+        <button type="button" class="rounded-md border border-slate-300 bg-white px-3 py-1.5 text-sm font-medium text-slate-700 transition-all duration-200 hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-1" disabled>
+          Anterior
+        </button>
+        <button type="button" class="rounded-md border border-slate-300 bg-white px-3 py-1.5 text-sm font-medium text-slate-700 transition-all duration-200 hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-1">
+          Siguiente
+        </button>
+      </div>
+    </div>
+
+  </div>
+
+</div>

@@ -1,1 +1,186 @@
-<p>employee-form works!</p>
+<!-- Contenedor del componente inyectado en el router-outlet -->
+<!--
+  flex-col y flex-1: Se expanden verticalmente dentro del layout principal.
+-->
+<div class="flex w-full flex-1 flex-col gap-6">
+
+  <!-- Tarjeta contenedor del formulario -->
+  <div class="flex w-full flex-1 flex-col overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm">
+
+    <!-- Cabecera del formulario -->
+    <div class="border-b border-slate-200 bg-white px-6 py-5">
+      <h3 class="text-lg font-extrabold tracking-tight text-slate-800">Registro de Empleado</h3>
+      <p class="mt-1 text-sm text-slate-500">Complete la información general y asignación de rol del empleado.</p>
+    </div>
+
+    <!-- Formulario de datos -->
+    <form class="flex flex-1 flex-col justify-between p-6 sm:p-8">
+
+      <!-- Layout en Grid: 1 columna en móvil, 2 columnas a partir de md -->
+      <div class="grid grid-cols-1 gap-6 md:grid-cols-2">
+
+        <!-- Campo: Nombre del Empleado (employeeName) -->
+        <div class="flex flex-col gap-2">
+          <label for="employeeName" class="text-sm font-semibold text-slate-700">
+            Nombre del Empleado
+          </label>
+          <input
+            type="text"
+            id="employeeName"
+            name="employeeName"
+            [(ngModel)]="employeeObj.employeeName"
+            placeholder="Ej. María Fernanda Morales"
+            class="rounded-lg border border-slate-300 bg-white px-4 py-2.5 text-sm text-slate-900 placeholder-slate-400 transition-all duration-200 focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/20"
+          />
+        </div>
+
+        <!-- Campo: Correo Electrónico (emailId) -->
+        <div class="flex flex-col gap-2">
+          <label for="emailId" class="text-sm font-semibold text-slate-700">
+            Correo Electrónico
+          </label>
+          <input
+            type="email"
+            id="emailId"
+            name="emailId"
+            [(ngModel)]="employeeObj.emailId"
+            placeholder="ejemplo@empresa.com"
+            class="rounded-lg border border-slate-300 bg-white px-4 py-2.5 text-sm text-slate-900 placeholder-slate-400 transition-all duration-200 focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/20"
+          />
+        </div>
+
+        <!-- Campo: Número de Contacto (contactNo) -->
+        <div class="flex flex-col gap-2">
+          <label for="contactNo" class="text-sm font-semibold text-slate-700">
+            Número de Contacto
+          </label>
+          <input
+            type="tel"
+            id="contactNo"
+            name="contactNo"
+            [(ngModel)]="employeeObj.contactNo"
+            placeholder="+504 9988-7766"
+            class="rounded-lg border border-slate-300 bg-white px-4 py-2.5 text-sm text-slate-900 placeholder-slate-400 transition-all duration-200 focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/20"
+          />
+        </div>
+
+        <!-- Campo: Contraseña (password) -->
+        <div class="flex flex-col gap-2">
+          <label for="password" class="text-sm font-semibold text-slate-700">
+            Contraseña
+          </label>
+          <input
+            type="password"
+            id="password"
+            name="password"
+            [(ngModel)]="employeeObj.password"
+            placeholder="••••••••"
+            class="rounded-lg border border-slate-300 bg-white px-4 py-2.5 text-sm text-slate-900 placeholder-slate-400 transition-all duration-200 focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/20"
+          />
+        </div>
+
+        <!-- Dropdown 1: Departamento Padre (Filtro superior) -->
+        <div class="flex flex-col gap-2">
+          <label for="parentDept" class="text-sm font-semibold text-slate-700">
+            Departamento Principal
+          </label>
+          <select
+            name="parentDept"
+            (change)="onChangeParent($event)"
+            class="rounded-lg border border-slate-300 bg-white px-4 py-2.5 text-sm text-slate-900 transition-all duration-200 focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/20"
+          >
+            @for (item of parentDeptList(); track $index) {
+              <option [value]="item.departmentId">{{ item.departmentName }}</option>
+            }
+          </select>
+        </div>
+
+        <!-- Dropdown 2: Sub-Departamento / Área (deptId - Hijo) -->
+        <div class="flex flex-col gap-2">
+          <label for="deptId" class="text-sm font-semibold text-slate-700">
+            Sub-Departamento / Área
+          </label>
+          <select
+            id="deptId"
+            name="deptId"
+            [(ngModel)]="employeeObj.deptId"
+            class="rounded-lg border border-slate-300 bg-white px-4 py-2.5 text-sm text-slate-900 transition-all duration-200 focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/20"
+          >
+            @for (item of childDeptList(); track $index) {
+              <option [value]="item.childDeptId">{{ item.departmentName }}</option>
+            }
+          </select>
+        </div>
+
+        <!-- Campo: Género (gender) -->
+        <div class="flex flex-col gap-2">
+          <label for="gender" class="text-sm font-semibold text-slate-700">
+            Género
+          </label>
+          <select
+            id="gender"
+            name="gender"
+            [(ngModel)]="employeeObj.gender"
+            class="rounded-lg border border-slate-300 bg-white px-4 py-2.5 text-sm text-slate-900 transition-all duration-200 focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/20"
+          >
+            <option value="" disabled>Seleccione género...</option>
+            <option value="Femenino">Femenino</option>
+            <option value="Masculino">Masculino</option>
+            <option value="Otro">Otro / Prefiero no especificar</option>
+          </select>
+        </div>
+
+        <!-- Campo: Rol (role) -->
+        <div class="flex flex-col gap-2">
+          <label for="role" class="text-sm font-semibold text-slate-700">
+            Rol en el Sistema
+          </label>
+          <select
+            id="role"
+            name="role"
+            [(ngModel)]="employeeObj.role"
+            class="rounded-lg border border-slate-300 bg-white px-4 py-2.5 text-sm text-slate-900 transition-all duration-200 focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/20"
+          >
+            <option value="" disabled selected>Asigne un rol...</option>
+            <option value="Administrador">Administrador</option>
+            <option value="Líder de Equipo">Líder de Equipo</option>
+            <option value="Desarrollador">Desarrollador</option>
+            <option value="Usuario Standard">Usuario Standard</option>
+          </select>
+        </div>
+
+      </div>
+
+      <!-- Acciones del Formulario (Guardar / Cancelar) -->
+      <div class="mt-8 flex items-center justify-end gap-3 border-t border-slate-200 pt-6">
+        <button
+          type="button"
+          class="inline-flex items-center justify-center rounded-lg border border-slate-300 bg-white px-4 py-2.5 text-sm font-semibold text-slate-700 shadow-sm transition-all duration-200 hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+        >
+          Cancelar
+        </button>
+
+        @if (currentEditEmptyId == 0) {
+          <button
+            type="button"
+            (click)="onSaveEmp()"
+            class="inline-flex items-center justify-center rounded-lg bg-indigo-600 px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition-all duration-200 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+          >
+            Crear Empleado
+          </button>
+        } @else {
+          <button
+            type="button"
+            (click)="onSaveEmp()"
+            class="inline-flex items-center justify-center rounded-lg bg-indigo-900 px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition-all duration-200 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+          >
+            Guardar Empleado
+          </button>
+        }
+      </div>
+
+    </form>
+
+  </div>
+
+</div>
