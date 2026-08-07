@@ -6,7 +6,7 @@
   <div class="flex flex-wrap items-center gap-3">
 
     <!-- Acción Primaria -->
-    <button routerLink="/admin/new-employee" class="inline-flex items-center justify-center rounded-lg bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm transition-all duration-200 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+    <button routerLink="/admin/new-employee/0" class="inline-flex items-center justify-center rounded-lg bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm transition-all duration-200 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
       <!-- Icono escalado a h-4 w-4 para acompañar el texto sm -->
       <svg class="-ml-1 mr-2 h-4 w-4" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
         <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
@@ -90,7 +90,7 @@
                   <button type="button" class="inline-flex items-center justify-center rounded-md px-2.5 py-1.5 text-sm font-medium text-slate-600 transition-all duration-200 hover:bg-slate-200 hover:text-slate-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-1">
                     Ver
                   </button>
-                  <button type="button" class="inline-flex items-center justify-center rounded-md px-2.5 py-1.5 text-sm font-medium text-indigo-600 transition-all duration-200 hover:bg-indigo-100 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-1">
+                  <button routerLink="/admin/new-employee/{{item.employeeId}}" class="inline-flex items-center justify-center rounded-md px-2.5 py-1.5 text-sm font-medium text-indigo-600 transition-all duration-200 hover:bg-indigo-100 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-1">
                     Editar
                   </button>
                   <button type="button" class="inline-flex items-center justify-center rounded-md p-1.5 text-slate-400 transition-all duration-200 hover:bg-red-100 hover:text-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-1" aria-label="Eliminar">
