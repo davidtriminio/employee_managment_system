@@ -27,8 +27,9 @@ export const routes: Routes = [
         path: 'employee-list',
         component: EmployeeList
       },
+      // Add the id to the route
       {
-        path: 'new-employee',
+        path: 'new-employee/:id',
         component: EmployeeForm
       }
     ]
