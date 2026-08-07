@@ -107,7 +107,7 @@
             class="rounded-lg border border-slate-300 bg-white px-4 py-2.5 text-sm text-slate-900 transition-all duration-200 focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/20"
           >
             @for (item of childDeptList(); track $index) {
-              <option [value]="item.childDeptId">{{item.departmentName}}</option>
+              <option [value]="item.childDeptId">{{ item.departmentName }}</option>
             }
           </select>
         </div>
@@ -160,13 +160,23 @@
           Cancelar
         </button>
 
-        <button
-          type="button"
-          (click)="onSaveEmp()"
-          class="inline-flex items-center justify-center rounded-lg bg-indigo-600 px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition-all duration-200 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-        >
-          Guardar Empleado
-        </button>
+        @if (currentEditEmptyId == 0) {
+          <button
+            type="button"
+            (click)="onSaveEmp()"
+            class="inline-flex items-center justify-center rounded-lg bg-indigo-600 px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition-all duration-200 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+          >
+            Crear Empleado
+          </button>
+        } @else {
+          <button
+            type="button"
+            (click)="onSaveEmp()"
+            class="inline-flex items-center justify-center rounded-lg bg-indigo-900 px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition-all duration-200 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+          >
+            Guardar Empleado
+          </button>
+        }
       </div>
 
     </form>
