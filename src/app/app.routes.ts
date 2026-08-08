@@ -4,6 +4,7 @@ import {Layout} from './pages/layout/layout';
 import {Dashboard} from './pages/dashboard/dashboard';
 import {EmployeeList} from './pages/employee-list/employee-list';
 import {EmployeeForm} from './pages/employee-form/employee-form';
+import {Projects} from './pages/projects/projects';
 
 export const routes: Routes = [
   {
@@ -31,7 +32,11 @@ export const routes: Routes = [
       {
         path: 'new-employee/:id',
         component: EmployeeForm
-      }
+      },
+      {
+        path: 'project-list',
+        component: Projects
+      },
     ]
   },
 ];

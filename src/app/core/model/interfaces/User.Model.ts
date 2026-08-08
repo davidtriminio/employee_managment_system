@@ -21,9 +21,26 @@ export interface IParentDept {
   departmentName: string,
   departmentLogo: string
 }
+
 export interface IChildDept {
   childDeptId: number
   parentDeptId: number
   departmentName: string
+}
+
+export interface NewProjectModel {
+  projectId: number
+  projectName: string
+  clientName: string
+  startDate: string
+  leadByEmpId: number
+  contactPerson: string
+  contactNo: string
+  emailId: string
+}
+
+// Extend from the other interface, inherit
+export interface IProject  extends NewProjectModel{
+  employeeName: string
 }
 
