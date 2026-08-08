@@ -5,6 +5,7 @@
     GET_EMPLOYEE_BY_ID: 'GetEmployee/',
     CREATE_EMPLOYEE: 'CreateEmployee',
     GET_ALL_PROJECTS: 'GetAllProjects',
-    CREATE_NEW_PROJECT: 'CreateProject'
+    CREATE_NEW_PROJECT: 'CreateProject',
+    GET_ALL_PROJECT_EMPLOYEE: 'GetAllProjectEmployees'
   }
 }
