@@ -1,11 +1,13 @@
-import {inject, Service} from '@angular/core';
+import {Injectable, inject} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {environment} from '../../../environments/environment';
 import {GlobalConstant} from '../globalConstant/Global.constant';
 import {Observable} from 'rxjs';
 import {IProject, NewProjectModel} from '../model/interfaces/User.Model';
 
-@Service()
+@Injectable({
+  providedIn: 'root'
+})
 export class ProjectService {
 
   http = inject(HttpClient)
