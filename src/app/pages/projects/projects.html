@@ -22,7 +22,7 @@
         <svg class="-ml-1 mr-2 h-4 w-4" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"/>
         </svg>
-        {{!isFormVisible ? 'Nuevo Proyecto' : 'Cerrar Formulario'}}
+        {{ !isFormVisible ? 'Nuevo Proyecto' : 'Cerrar Formulario' }}
       </button>
     </header>
 
@@ -37,11 +37,12 @@
 
           <header class="flex items-start justify-between gap-3 border-b border-slate-200/60 pb-3">
             <div class="flex flex-col gap-1">
-              <span class="text-[10px] font-bold uppercase tracking-wider text-indigo-600">ID: {{item.projectId}}</span>
+              <span
+                class="text-[10px] font-bold uppercase tracking-wider text-indigo-600">ID: {{ item.projectId }}</span>
               <!-- Cambiado a <h3> por jerarquía SEO -->
               <h3 class="line-clamp-2 text-sm font-bold leading-tight text-slate-900" title="Implementación de ERP">
-                {{item.projectName}}</h3>
-              <span class="text-xs font-medium text-slate-600">Cliente: {{item.clientName}}</span>
+                {{ item.projectName }}</h3>
+              <span class="text-xs font-medium text-slate-600">Cliente: {{ item.clientName }}</span>
             </div>
 
             <div class="flex shrink-0 flex-col gap-1 sm:flex-row">
@@ -67,18 +68,30 @@
           <div class="grid grid-cols-2 gap-x-2 gap-y-3">
             <div class="flex flex-col gap-0.5">
               <span class="text-[11px] font-semibold uppercase text-slate-500">Inicio</span>
-              <span class="text-xs text-slate-800">{{item.startDate | date: 'MMM d, y'}}</span>
+              <span class="text-xs text-slate-800">{{ item.startDate | date: 'MMM d, y' }}</span>
             </div>
             <div class="flex flex-col gap-0.5">
-              <span class="text-[11px] font-semibold uppercase text-slate-500">{{item.leadByEmpId}}</span>
-              <span class="text-xs text-slate-800">{{item.employeeName}}</span>
+              <span class="text-[11px] font-semibold uppercase text-slate-500">{{ item.leadByEmpId }}</span>
+              <span class="text-xs text-slate-800">{{ item.employeeName }}</span>
             </div>
             <div class="col-span-2 flex flex-col gap-0.5 rounded-lg bg-white p-2 ring-1 ring-inset ring-slate-200/50">
-              <span class="text-[11px] font-semibold uppercase text-slate-500">Contacto: {{item.contactPerson}}</span>
-              <span class="truncate text-xs text-slate-600" title="juan.perez@empresasa.com">{{item.emailId}}
-                .com</span>
-              <span class="text-xs text-slate-600">{{item.contactNo}}</span>
+              <span class="text-[11px] font-semibold uppercase text-slate-500">Contacto: {{ item.contactPerson }}</span>
+              <span class="truncate text-xs text-slate-600" title="juan.perez@empresasa.com">{{ item.emailId }}</span>
+              <span class="text-xs text-slate-600">{{ item.contactNo }}</span>
             </div>
+          </div>
+
+          <!-- Botón Empleado (Asignar Empleado) -->
+          <div class="pt-2">
+            <button type="button" (click)="openEmployeeModal(item.projectId)"
+                    class="w-full inline-flex items-center justify-center rounded-lg bg-slate-800 px-3 py-2 text-xs font-semibold text-white shadow-sm transition-all duration-200 hover:bg-slate-900 focus:outline-none focus:ring-2 focus:ring-slate-500 focus:ring-offset-2">
+              <svg class="-ml-1 mr-1.5 h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke-width="2"
+                   stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                      d="M18 18.72a9.094 9.094 0 00-3.741-.479 3 3 0 00-2.482 1.325m-2.25 1.76a9.04 9.04 0 01-1.528-.48 3.375 3.375 0 01-2.584-3.14V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v6.592c0 1.353-.872 2.535-2.152 2.93a18.354 18.354 0 01-4.348.67m-7.5-6.5h10.5m-10.5 3h7.5"/>
+              </svg>
+              Empleado
+            </button>
           </div>
         </article>
       }
@@ -135,10 +148,9 @@
                   formControlName="leadByEmpId"
                   name="leadByEmpId"
                   class="rounded-lg border border-slate-300 bg-white px-4 py-2.5 text-sm text-slate-900 transition-all duration-200 focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/20">
-            <option value="" selected>Seleccionar Empleado</option>
+            <option value="0" selected>Seleccionar Empleado</option>
             @for (item of employeeList$ | async; track $index) {
-            <option [value]="item.employeeId" selected>{{item.employeeName}}</option>
-
+              <option [value]="item.employeeId">{{ item.employeeName }}</option>
             }
           </select>
         </div>
@@ -178,7 +190,7 @@
                   class="w-full rounded-lg bg-indigo-600 px-6 py-3 text-sm font-semibold text-white shadow-sm transition-all duration-200 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
             Guardar
           </button>
-          <button type="button" (click)="showFormPanel"
+          <button type="button" (click)="showFormPanel()"
                   class="w-full rounded-lg border border-slate-300 bg-white px-4 py-3 text-sm font-semibold text-slate-700 shadow-sm transition-all duration-200 hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
             Cerrar
           </button>
@@ -188,3 +200,122 @@
     </aside>
   }
 </section>
+
+<!-- ========================================== -->
+<!-- MODAL POPUP PARA ASIGNAR EMPLEADO -->
+<!-- ========================================== -->
+@if (isEmployeeModalOpen) {
+  <div #employeeModal class="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/50 p-4 backdrop-blur-sm">
+    <div
+      class="flex flex-col w-full max-w-3xl max-h-[85vh] rounded-2xl bg-white shadow-2xl border border-slate-100 overflow-hidden">
+
+      <!-- Cabecera del Modal -->
+      <header class="flex items-center justify-between border-b border-slate-100 px-6 py-4 bg-slate-50/50">
+        <div>
+          <h3 class="text-lg font-extrabold tracking-tight text-slate-800">Asignar Empleado al Proyecto</h3>
+          <p class="text-xs text-slate-500">Seleccione los datos y el rol para asignar el personal.</p>
+        </div>
+        <button type="button" (click)="closeEmployeeModal()"
+                class="rounded-lg p-1.5 text-slate-400 hover:bg-slate-100 hover:text-slate-700 transition-colors">
+          <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
+          </svg>
+        </button>
+      </header>
+
+      <!-- Cuerpo del Modal -->
+      <div class="flex flex-col gap-6 p-6 overflow-y-auto">
+
+        <!-- Formulario Superior dentro del Modal -->
+        <div class="rounded-xl border border-slate-200/80 bg-slate-50/50 p-4">
+          <form class="grid grid-cols-1 sm:grid-cols-4 gap-4 items-end">
+
+            <div class="flex flex-col gap-1">
+              <label class="text-xs font-semibold uppercase text-slate-600">Empleado</label>
+              <select
+                name="empId"
+                [(ngModel)]="assignEmployeeObj.empId"
+                class="rounded-lg border border-slate-300 bg-white px-4 py-2.5 text-sm text-slate-900 transition-all duration-200 focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/20">
+                @for (item of employeeList$ | async; track $index) {
+                  <option [value]="item.employeeId">{{ item.employeeName }}</option>
+                }
+              </select>
+            </div>
+
+            <div class="flex flex-col gap-1">
+              <label class="text-xs font-semibold uppercase text-slate-600">Rol</label>
+              <input type="text"
+                     name="role"
+                     [(ngModel)]="assignEmployeeObj.role"
+                     placeholder="Ej. Desarrollador"
+                     class="rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/20">
+            </div>
+
+            <div class="flex flex-col gap-1">
+              <label class="text-xs font-semibold uppercase text-slate-600">Fecha de Asignación</label>
+              <input type="date" value="2026-08-08"
+                     name="assignedDate"
+                     [(ngModel)]="assignEmployeeObj.assignedDate"
+                     class="rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/20">
+            </div>
+<!--            <div class="flex flex-col gap-1">-->
+<!--              <label class="text-xs font-semibold uppercase text-slate-600">Activo</label>-->
+<!--              <input type="checkbox" name="isActive"-->
+<!--                     [(ngModel)]="assignEmployeeObj.isActive" class="h-4 w-4 text-indigo-600 focus:ring-indigo-500">-->
+<!--            </div>-->
+
+            <div>
+              <button type="button"
+                      (click)="assignEmployee()"
+                      class="w-full inline-flex items-center justify-center rounded-lg bg-indigo-600 px-4 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+                Asignar
+              </button>
+            </div>
+
+          </form>
+        </div>
+
+        <!-- Tabla de Empleados -->
+        <div class="overflow-x-auto rounded-xl border border-slate-200">
+          <table class="w-full text-left border-collapse">
+            <thead>
+            <tr
+              class="border-b border-slate-200 bg-slate-50 text-[11px] font-bold uppercase tracking-wider text-slate-600">
+              <th class="p-3">ID</th>
+              <th class="p-3">Nombre</th>
+              <th class="p-3">Fecha de Asignacion</th>
+              <th class="p-3 text-center">Acción</th>
+            </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-200 text-sm text-slate-700">
+              @for (item of currentSelectedProjectEmployee(); track $index) {
+                <tr class="hover:bg-slate-50/50 transition-colors">
+                  <td class="p-3 font-medium text-slate-900">1</td>
+                  <td class="p-3">{{ item.employeeName }}</td>
+                  <td class="p-3 text-slate-500">{{ item.assignedDate | date: 'MMM d, y' }}</td>
+                  <td class="p-3 text-center">
+                    <input type="radio" name="selectedEmployee" class="h-4 w-4 text-indigo-600 focus:ring-indigo-500">
+                  </td>
+                </tr>
+              } @empty {
+                <tr class="hover:bg-slate-50/50 transition-colors">
+                  <td class="text-center">No Employees Assigned Yet</td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+
+      </div>
+
+      <!-- Pie del Modal -->
+      <footer class="flex items-center justify-end gap-3 border-t border-slate-100 px-6 py-4 bg-slate-50/50">
+        <button type="button" (click)="closeEmployeeModal()"
+                class="rounded-lg border border-slate-300 bg-white px-4 py-2 text-sm font-semibold text-slate-700 shadow-sm hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+          Cancelar
+        </button>
+      </footer>
+
+    </div>
+  </div>
+}
