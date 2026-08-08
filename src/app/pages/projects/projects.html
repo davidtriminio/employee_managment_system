@@ -1,1 +1,190 @@
-<p>projects works!</p>
+<!-- Contenedor principal convertido en <section> semántico -->
+<section aria-label="Gestión de proyectos" class="grid grid-cols-1 items-start gap-6 lg:grid-cols-3">
+
+  <!-- ========================================== -->
+  <!-- COLUMNA IZQUIERDA: LISTA DE PROYECTOS -->
+  <!-- ========================================== -->
+  <!-- Se aplican clases dinámicas para expandir la columna cuando el formulario se oculta -->
+  <div
+    class="flex flex-col rounded-2xl border border-slate-100 bg-white p-4 shadow-xl transition-all duration-300 md:p-6 lg:p-8"
+    [ngClass]="isFormVisible ? 'lg:col-span-2': 'lg:col-span-3'">
+
+    <!-- Cabecera de la lista convertida en <header> -->
+    <header class="mb-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+      <div>
+        <!-- Cambiado a <h2> por jerarquía SEO -->
+        <h2 class="text-lg font-extrabold tracking-tight text-slate-800">Proyectos Activos</h2>
+        <p class="mt-1 text-sm text-slate-500">Gestione la información detallada de todos los proyectos.</p>
+      </div>
+
+      <button type="button" (click)="showFormPanel()"
+              class="inline-flex items-center justify-center rounded-lg bg-indigo-600 px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition-all duration-200 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+        <svg class="-ml-1 mr-2 h-4 w-4" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"/>
+        </svg>
+        {{!isFormVisible ? 'Nuevo Proyecto' : 'Cerrar Formulario'}}
+      </button>
+    </header>
+
+    <!-- Contenedor de tarjetas. Ajusta sus columnas internas (2, 3 o 4) según si el formulario está visible -->
+    <div class="grid max-h-[70vh] grid-cols-1 gap-4 overflow-y-auto pr-2 md:grid-cols-2 transition-all duration-300"
+         [ngClass]="isFormVisible ? 'lg:grid-cols-2' : 'lg:grid-cols-3 xl:grid-cols-4'">
+
+      <!-- Tarjeta de Proyecto: Convertida en <article> (ideal para contenido independiente en SEO) -->
+      @for (item of projectList(); track $index) {
+        <article
+          class="group flex flex-col justify-between gap-4 rounded-xl border border-indigo-500 bg-slate-50/50 p-4 transition-all duration-200">
+
+          <header class="flex items-start justify-between gap-3 border-b border-slate-200/60 pb-3">
+            <div class="flex flex-col gap-1">
+              <span class="text-[10px] font-bold uppercase tracking-wider text-indigo-600">ID: {{item.projectId}}</span>
+              <!-- Cambiado a <h3> por jerarquía SEO -->
+              <h3 class="line-clamp-2 text-sm font-bold leading-tight text-slate-900" title="Implementación de ERP">
+                {{item.projectName}}</h3>
+              <span class="text-xs font-medium text-slate-600">Cliente: {{item.clientName}}</span>
+            </div>
+
+            <div class="flex shrink-0 flex-col gap-1 sm:flex-row">
+              <button type="button"
+                      class="inline-flex items-center justify-center rounded-md bg-white p-1.5 text-indigo-600 shadow-sm ring-1 ring-inset ring-slate-200 transition-all duration-200 hover:bg-indigo-50 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                      aria-label="Editar">
+                <svg class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L6.832 19.82a4.5 4.5 0 01-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 011.13-1.897L16.863 4.487zm0 0L19.5 7.125"/>
+                </svg>
+              </button>
+              <button type="button"
+                      class="inline-flex items-center justify-center rounded-md bg-white p-1.5 text-slate-400 shadow-sm ring-1 ring-inset ring-slate-200 transition-all duration-200 hover:bg-red-50 hover:text-red-600 focus:outline-none focus:ring-2 focus:ring-red-500"
+                      aria-label="Eliminar">
+                <svg class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0"/>
+                </svg>
+              </button>
+            </div>
+          </header>
+
+          <div class="grid grid-cols-2 gap-x-2 gap-y-3">
+            <div class="flex flex-col gap-0.5">
+              <span class="text-[11px] font-semibold uppercase text-slate-500">Inicio</span>
+              <span class="text-xs text-slate-800">{{item.startDate | date: 'MMM d, y'}}</span>
+            </div>
+            <div class="flex flex-col gap-0.5">
+              <span class="text-[11px] font-semibold uppercase text-slate-500">{{item.leadByEmpId}}</span>
+              <span class="text-xs text-slate-800">{{item.employeeName}}</span>
+            </div>
+            <div class="col-span-2 flex flex-col gap-0.5 rounded-lg bg-white p-2 ring-1 ring-inset ring-slate-200/50">
+              <span class="text-[11px] font-semibold uppercase text-slate-500">Contacto: {{item.contactPerson}}</span>
+              <span class="truncate text-xs text-slate-600" title="juan.perez@empresasa.com">{{item.emailId}}
+                .com</span>
+              <span class="text-xs text-slate-600">{{item.contactNo}}</span>
+            </div>
+          </div>
+        </article>
+      }
+    </div>
+  </div>
+
+  <!-- ========================================== -->
+  <!-- COLUMNA DERECHA: FORMULARIO -->
+  <!-- ========================================== -->
+  @if (isFormVisible) {
+    <!-- Convertido en <aside> (ideal para contenido complementario) -->
+    <aside aria-label="Detalles del proyecto"
+           class="rounded-2xl border border-slate-100 bg-white p-4 shadow-xl md:p-6 lg:col-span-1 lg:p-8">
+
+      <header class="mb-6">
+        <h2 class="text-xl font-extrabold tracking-tight text-slate-800">Detalles</h2>
+        <p class="mt-1 text-sm text-slate-500">Edite la información del registro seleccionado.</p>
+      </header>
+
+      <form class="flex flex-col gap-5" [formGroup]="projectForm">
+
+        <div class="flex flex-col gap-1.5">
+          <label for="projectName" class="text-sm font-medium text-slate-700">Proyecto <span
+            class="text-red-500">*</span></label>
+          <input type="text" id="projectName"
+                 formControlName="projectName"
+                 name="projectName" placeholder="Ej. Implementación"
+                 value="Implementación de ERP"
+                 class="rounded-lg border border-slate-300 bg-white px-4 py-2.5 text-sm text-slate-900 placeholder-slate-400 transition-all duration-200 focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/20"
+                 required>
+        </div>
+
+        <div class="flex flex-col gap-1.5">
+          <label for="clientName" class="text-sm font-medium text-slate-700">Cliente <span class="text-red-500">*</span></label>
+          <input type="text"
+                 formControlName="clientName"
+                 id="clientName"
+                 name="clientName" placeholder="Ej. Empresa S.A." value="Empresa S.A."
+                 class="rounded-lg border border-slate-300 bg-white px-4 py-2.5 text-sm text-slate-900 placeholder-slate-400 transition-all duration-200 focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/20"
+                 required>
+        </div>
+
+        <div class="flex flex-col gap-1.5">
+          <label for="startDate" class="text-sm font-medium text-slate-700">Fecha de Inicio</label>
+          <input type="date" id="startDate"
+                 formControlName="startDate"
+                 name="startDate" value="2026-08-08"
+                 class="rounded-lg border border-slate-300 bg-white px-4 py-2.5 text-sm text-slate-900 placeholder-slate-400 transition-all duration-200 focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/20">
+        </div>
+
+        <div class="flex flex-col gap-1.5">
+          <label for="leadByEmpId" class="text-sm font-medium text-slate-700">Líder Asignado</label>
+          <select id="leadByEmpId"
+                  formControlName="leadByEmpId"
+                  name="leadByEmpId"
+                  class="rounded-lg border border-slate-300 bg-white px-4 py-2.5 text-sm text-slate-900 transition-all duration-200 focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/20">
+            <option value="" selected>Seleccionar Empleado</option>
+            @for (item of employeeList$ | async; track $index) {
+            <option [value]="item.employeeId" selected>{{item.employeeName}}</option>
+
+            }
+          </select>
+        </div>
+
+        <div class="border-t border-slate-100 pt-3">
+          <h3 class="text-sm font-bold tracking-tight text-slate-800">Contacto</h3>
+        </div>
+
+        <div class="flex flex-col gap-1.5">
+          <label for="contactPerson" class="text-sm font-medium text-slate-700">Nombre de Contacto</label>
+          <input type="text" id="contactPerson"
+                 formControlName="contactPerson"
+                 name="contactPerson" placeholder="Nombre completo" value="Juan Pérez"
+                 class="rounded-lg border border-slate-300 bg-white px-4 py-2.5 text-sm text-slate-900 placeholder-slate-400 transition-all duration-200 focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/20">
+        </div>
+
+        <div class="flex flex-col gap-1.5">
+          <label for="contactNo" class="text-sm font-medium text-slate-700">Teléfono</label>
+          <input type="tel" id="contactNo"
+                 formControlName="contactNo"
+                 name="contactNo" placeholder="+1 234 567 8900" value="+504 9999-0000"
+                 class="rounded-lg border border-slate-300 bg-white px-4 py-2.5 text-sm text-slate-900 placeholder-slate-400 transition-all duration-200 focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/20">
+        </div>
+
+        <div class="flex flex-col gap-1.5">
+          <label for="emailId" class="text-sm font-medium text-slate-700">Correo Electrónico</label>
+          <input type="email" id="emailId"
+                 formControlName="emailId"
+                 name="emailId" placeholder="correo@ejemplo.com"
+                 value="juan.perez@empresasa.com"
+                 class="rounded-lg border border-slate-300 bg-white px-4 py-2.5 text-sm text-slate-900 placeholder-slate-400 transition-all duration-200 focus:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500/20">
+        </div>
+
+        <div class="mt-2 flex flex-col gap-3">
+          <button type="button"
+                  (click)="saveProject()"
+                  class="w-full rounded-lg bg-indigo-600 px-6 py-3 text-sm font-semibold text-white shadow-sm transition-all duration-200 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+            Guardar
+          </button>
+          <button type="button" (click)="showFormPanel"
+                  class="w-full rounded-lg border border-slate-300 bg-white px-4 py-3 text-sm font-semibold text-slate-700 shadow-sm transition-all duration-200 hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+            Cerrar
+          </button>
+        </div>
+
+      </form>
+    </aside>
+  }
+</section>
