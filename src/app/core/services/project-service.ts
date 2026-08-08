@@ -18,4 +18,12 @@ export class ProjectService {
     return this.http.post<NewProjectModel>(environment.API_URL + GlobalConstant.API_METHOD.CREATE_NEW_PROJECT, obj)
   }
 
+  getAllProjectEmployee(){
+    return this.http.get(environment.API_URL + GlobalConstant.API_METHOD.GET_ALL_PROJECT_EMPLOYEE)
+  }
+
+  assignEmployee(obj: any): Observable<any>{
+    return this.http.post<any>(environment.API_URL + GlobalConstant.API_METHOD.CREATE_PROJECT_EMPLOYEE, obj)
+  }
+
 }
